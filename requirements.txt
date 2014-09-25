@@ -1,0 +1,5 @@
+lettuce
+requests
+nose
+bottle
+#PyQt5 - install manually

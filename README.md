@@ -1,4 +1,3 @@
 pqaut
 =====
-
-UI automation server that runs in PyQt apps and enables BDD style testing.
+Automation for BDD testing PyQt apps
