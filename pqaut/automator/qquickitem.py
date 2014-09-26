@@ -13,15 +13,13 @@ class QQuickItemAutomator(pqaut.automator.qobject.QObjectAutomator):
         self._target = target
 
     def click(self):
-        pointf = self._target.mapToScene(QPointF(0.0, 0.0))
+        pointf = self.target.mapToScene(QPointF(0.0, 0.0))
         x = pointf.x()
         y = pointf.y()
         x += self.value_or_default("width", 0.0) / 2.0
         y += self.value_or_default("height", 0.0) / 2.0
         point = QPoint(x,y)
-        first_child = pqaut.server.get_root_widget().get_children()[0]
-        quick_widget = first_child.target.childAt(point.x(), point.y())
-        pqaut.server.clicker.click_on(quick_widget, point)
+        pqaut.server.clicker.click_on(pqaut.server.get_root_widget().clickable_target(point), point)
 
     def is_offscreen(self):
         first_child = pqaut.server.get_root_widget().get_children()[0]

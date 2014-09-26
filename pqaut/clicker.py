@@ -9,7 +9,7 @@ def log(message):
         print("")
 
 class Clicker(QObject):
-    do_click = pyqtSignal(QWidget, QPoint)
+    do_click = pyqtSignal(QObject, QPoint)
 
     def __init__(self):
         super(QObject, self).__init__()
