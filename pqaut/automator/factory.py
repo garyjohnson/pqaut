@@ -3,7 +3,7 @@ import PyQt5.Qt
 
 
 def automate(target):
-    automators = ['QQuickItem', 'QQuickWidget', 'QWidget', 'QObject']
+    automators = ['QQuickWindow', 'QQuickItem', 'QQuickWidget', 'QWidget', 'QObject']
 
     for type_name in automators:
         qt_type = getattr(PyQt5.Qt, type_name)

@@ -19,14 +19,14 @@ class QQuickItemAutomator(pqaut.automator.qobject.QObjectAutomator):
         x += self.value_or_default("width", 0.0) / 2.0
         y += self.value_or_default("height", 0.0) / 2.0
         point = QPoint(x,y)
-        root_widget = pqaut.server.get_root_widget()
-        quick_widget = root_widget.target.childAt(point.x(), point.y())
+        first_child = pqaut.server.get_root_widget().get_children()[0]
+        quick_widget = first_child.target.childAt(point.x(), point.y())
         pqaut.server.clicker.click_on(quick_widget, point)
 
     def is_offscreen(self):
-        root_widget = pqaut.server.get_root_widget()
-        root_width = root_widget.value_or_default('width', 0.0)
-        root_height = root_widget.value_or_default('height', 0.0)
+        first_child = pqaut.server.get_root_widget().get_children()[0]
+        root_width = first_child.value_or_default('width', 0.0)
+        root_height = first_child.value_or_default('height', 0.0)
         pointf = self._target.mapToScene(QPointF(0.0, 0.0))
         x = pointf.x()
         y = pointf.y()
@@ -38,8 +38,7 @@ class QQuickItemAutomator(pqaut.automator.qobject.QObjectAutomator):
         children = []
 
         try:
-            children = self.value_or_default('childItems', None)
-
+            children = self._target.childItems()
             if children is None:
                 children = self._target.findChildren(QObject)
         except Exception as e:

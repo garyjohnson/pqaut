@@ -59,15 +59,23 @@ def get_query_value(name):
     return ''
 
 def get_root_widget(window_name = ''):
-    if not any(QApplication.topLevelWidgets()):
-        return None
-
     for root_widget in QApplication.topLevelWidgets():
         root_widget = factory.automate(root_widget)
         if len(window_name) > 0 and root_widget.is_match(window_name):
             return root_widget
 
-    return factory.automate(QApplication.topLevelWidgets()[0])
+    if any(QApplication.topLevelWidgets()):
+        return factory.automate(QApplication.topLevelWidgets()[0])
+
+    for window in QApplication.topLevelWindows():
+        window = factory.automate(window)
+        if len(window_name) > 0 and window.is_match(window_name):
+            return window
+
+    if any(QApplication.topLevelWindows()):
+        return factory.automate(QApplication.topLevelWindows()[0])
+
+    return None
 
 def find_widget_in(parent, value, automation_type):
     for child in parent.get_children():

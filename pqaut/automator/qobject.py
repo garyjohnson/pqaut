@@ -1,3 +1,5 @@
+import types
+
 from PyQt5.Qt import QObject
 
 import pqaut.automator.factory as factory
@@ -55,3 +57,22 @@ class QObjectAutomator(object):
 
         return json
 
+    def hasmethod(self, method_name):
+        return hasattr(self._target, method_name) and callable(getattr(self._target, method_name))
+
+    def value_or_default(self, value_name, default):
+        value = default
+        if self.hasmethod(value_name):
+            method = getattr(self._target, value_name)
+            try:
+                value = method()
+            except Exception as e:
+                pass
+
+        elif hasattr(self._target, value_name):
+            value = getattr(self._target, value_name)
+
+        if type(value) == types.StringType:
+            return value.decode('utf-8')
+
+        return value
