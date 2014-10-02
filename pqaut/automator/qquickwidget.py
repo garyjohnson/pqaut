@@ -8,4 +8,8 @@ class QQuickWidgetAutomator(pqaut.automator.qwidget.QWidgetAutomator):
         self._target = target
 
     def get_children(self):
-        return [factory.automate(self._target.rootObject())]
+        children = []
+        root_object = self._target.rootObject()
+        if root_object is not None:
+            children.append(factory.automate(root_object))
+        return children
