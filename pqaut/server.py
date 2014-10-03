@@ -2,6 +2,7 @@ import os
 import bottle
 import json
 import threading
+import logging
 
 from bottle import template
 from PyQt5.Qt import QApplication
@@ -30,7 +31,7 @@ def click():
             return_value = widget.to_json()
             widget.click()
     except Exception as error:
-        log("/click got error {0}".format(error))
+        logger.error("/click got error {0}".format(error))
 
     return return_value
 
@@ -45,7 +46,7 @@ def find_element():
     if widget is not None:
         found_json = widget.to_json()
 
-    log(found_json)
+    logger.debug('found element: {}'.format(found_json))
     return found_json
 
 @bottle.get("/")
@@ -59,15 +60,21 @@ def get_query_value(name):
     return ''
 
 def get_root_widget(window_name = ''):
-    for window in QApplication.topLevelWindows():
-        window = factory.automate(window)
-        if len(window_name) > 0 and window.is_match(window_name):
-            return window
+    root_widget = None
+    logger.debug('looking for root widget named "{}"'.format(window_name))
 
-    if any(QApplication.topLevelWindows()):
-        return factory.automate(QApplication.topLevelWindows()[0])
+    for root_widget in QApplication.topLevelWidgets():
+        logger.debug('enumerating root widgets: {}'.format(root_widget))
+        root_widget = factory.automate(root_widget)
+        if len(window_name) > 0 and root_widget.is_match(window_name):
+            break
 
-    return None
+    if any(QApplication.topLevelWidgets()):
+        root_widget = factory.automate(QApplication.topLevelWidgets()[0]) 
+
+    logger.debug('found root widget: {}'.format(root_widget if root_widget is None else root_widget.target))
+    return root_widget
+
 
 def find_widget_in(parent, value, automation_type):
     for child in parent.get_children():
@@ -80,16 +87,17 @@ def find_widget_in(parent, value, automation_type):
 
     return None
 
-def log(message):
-    if "DEBUG" in os.environ:
-        print("[pqaut] {0}".format(message))
-        print("")
-
 def start_automation_server():
     debug = "DEBUG" in os.environ
-    log("Starting bottle in debug mode")
+    logger.info("Starting bottle in debug mode")
     thread = threading.Thread(target=bottle.run, kwargs={'host':'localhost', 'port':5123, 'quiet':(not debug), 'debug':debug})
     thread.setDaemon(True)
     thread.start()
 
+if "DEBUG" in os.environ:
+    logging.basicConfig(level=logging.DEBUG)
+else:
+    logging.basicConfig(level=logging.ERROR)
+
+logger = logging.getLogger(__name__)
 clicker = pqaut.clicker.Clicker()

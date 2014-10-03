@@ -1,9 +1,12 @@
 import types
+import logging
 
 from PyQt5.Qt import QObject
 
 import pqaut.automator.factory as factory
 
+
+logger = logging.getLogger(__name__)
 
 class QObjectAutomator(object):
 
@@ -29,8 +32,9 @@ class QObjectAutomator(object):
         try:
             children = self._target.findChildren(QObject)
         except Exception as ex:
-            print ex
+            logger.debug('could not find children on {}: {}'.format(self._target, ex))
 
+        logger.debug('found children {} on {}'.format(self._target, children))
         return [factory.automate(c) for c in children];
 
     def is_match(self, value, automation_type=None):
