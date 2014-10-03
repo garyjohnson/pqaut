@@ -17,9 +17,6 @@ class QObjectAutomator(object):
     def target(self):
         return self._target
 
-    def clickable_target(self, point):
-        return self._target
-
     def click(self):
         pass
 
