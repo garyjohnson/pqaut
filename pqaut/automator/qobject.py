@@ -20,6 +20,9 @@ class QObjectAutomator(object):
     def click(self):
         pass
 
+    def clickable_target(self, point):
+        return _target
+
     def is_offscreen(self):
         return False
 

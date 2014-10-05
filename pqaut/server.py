@@ -5,7 +5,7 @@ import threading
 import logging
 
 from bottle import template
-from PyQt5.Qt import QApplication
+from PyQt5.Qt import QApplication, QQuickWindow
 
 import pqaut.automator.factory as factory
 import pqaut.clicker
@@ -61,15 +61,24 @@ def get_query_value(name):
 
 def get_root_widget(window_name = ''):
     root_widget = None
-    logger.debug('looking for root widget named "{}"'.format(window_name))
 
-    for root_widget in QApplication.topLevelWidgets():
-        logger.debug('enumerating root widgets: {}'.format(root_widget))
+    quick_windows = [window for window in QApplication.topLevelWindows() if isinstance(window, QQuickWindow)]
+    logger.debug('root QQuickWindows: {}, root widgets: {}'.format(quick_windows, QApplication.topLevelWidgets()))
+    for root_widget in quick_windows:
         root_widget = factory.automate(root_widget)
         if len(window_name) > 0 and root_widget.is_match(window_name):
             break
 
-    if any(QApplication.topLevelWidgets()):
+    if root_widget is None and any(quick_windows):
+        root_widget = factory.automate(quick_windows[0]) 
+
+    if root_widget is None:
+        for root_widget in QApplication.topLevelWidgets():
+            root_widget = factory.automate(root_widget)
+            if len(window_name) > 0 and root_widget.is_match(window_name):
+                break
+
+    if root_widget is None and any(QApplication.topLevelWidgets()):
         root_widget = factory.automate(QApplication.topLevelWidgets()[0]) 
 
     logger.debug('found root widget: {}'.format(root_widget if root_widget is None else root_widget.target))

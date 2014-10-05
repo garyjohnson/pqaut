@@ -13,6 +13,9 @@ class QWidgetAutomator(pqaut.automator.qobject.QObjectAutomator):
     def click(self):
         pqaut.server.clicker.click_on(self._target)
 
+    def clickable_target(self, point):
+        return self._target.childAt(point.x(), point.y())
+
     def is_offscreen(self):
         return self._target.visibleRegion().isEmpty()
 

@@ -3,33 +3,27 @@ Feature: QML app
   I want to have automated UI testing
   So I can refactor in peace
 
-  @wip
   Scenario: I see child by text
     Given I am running "9_qml_app.py"
     Then I see "This is QML Text"
 
-  @wip
   Scenario: I see child button by text
     Given I am running "9_qml_app.py"
     Then I see "This is a QML Button"
 
-  @wip
   Scenario: I see child by automation id
     Given I am running "9_qml_app.py"
     Then I see "my_button"
 
-  @wip
   Scenario: I see child by automation id and type
     Given I am running "9_qml_app.py"
     Then I see "my_text" with type "label"
 
-  @wip
   Scenario: I can click child by text
     Given I am running "9_qml_app.py"
     When I tap on "This is a QML Button"
     Then I see "Button was tapped"
 
-  @wip
   Scenario: I see child by unicode text
     Given I am running "9_qml_app.py"
     Then I see "Unicode € ♫"

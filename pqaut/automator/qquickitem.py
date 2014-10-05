@@ -20,8 +20,7 @@ class QQuickItemAutomator(pqaut.automator.qobject.QObjectAutomator):
         y += self.value_or_default("height", 0.0) / 2.0
         point = QPoint(x,y)
         root_widget = pqaut.server.get_root_widget()
-        child_at_point = root_widget.target.childAt(point.x(), point.y())
-        pqaut.server.clicker.click_on(child_at_point, point)
+        pqaut.server.clicker.click_on(root_widget.target, point)
 
     def is_offscreen(self):
         first_child = pqaut.server.get_root_widget()
