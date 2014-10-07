@@ -110,7 +110,7 @@ log_levels = {
     'WARNING': logging.WARNING,
     'ERROR': logging.ERROR,
 }
-log_level_name = os.environ.get('PQAUT_LOG', 'DEBUG')
+log_level_name = os.environ.get('PQAUT_LOG', 'ERROR')
 logging.basicConfig(level=log_levels[log_level_name])
 logger = logging.getLogger(__name__)
 logger.info('pqaut log level is {}'.format(log_level_name))
