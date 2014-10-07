@@ -84,7 +84,6 @@ def get_root_widget(window_name = ''):
     logger.debug('found root widget: {}'.format(root_widget if root_widget is None else root_widget.target))
     return root_widget
 
-
 def find_widget_in(parent, value, automation_type):
     for child in parent.get_children():
         if child.is_match(value, automation_type):
@@ -97,16 +96,22 @@ def find_widget_in(parent, value, automation_type):
     return None
 
 def start_automation_server():
-    debug = "DEBUG" in os.environ
-    logger.info("Starting bottle in debug mode")
+    debug = log_level_name is 'DEBUG'
+    if debug:
+        logger.info("Starting bottle in debug mode")
     thread = threading.Thread(target=bottle.run, kwargs={'host':'localhost', 'port':5123, 'quiet':(not debug), 'debug':debug})
     thread.setDaemon(True)
     thread.start()
 
-if "DEBUG" in os.environ:
-    logging.basicConfig(level=logging.DEBUG)
-else:
-    logging.basicConfig(level=logging.ERROR)
 
+log_levels = {
+    'DEBUG': logging.DEBUG,
+    'INFO': logging.INFO,
+    'WARNING': logging.WARNING,
+    'ERROR': logging.ERROR,
+}
+log_level_name = os.environ.get('PQAUT_LOG', 'DEBUG')
+logging.basicConfig(level=log_levels[log_level_name])
 logger = logging.getLogger(__name__)
+logger.info('pqaut log level is {}'.format(log_level_name))
 clicker = pqaut.clicker.Clicker()

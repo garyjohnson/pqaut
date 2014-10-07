@@ -11,9 +11,9 @@ world.app_process = None
 @world.absorb
 def launch_app(app_name):
     if "DEBUG" in os.environ:
-        world.app_process = subprocess.Popen(["python", "test_apps/{0}".format(app_name)])
+        world.app_process = subprocess.Popen(["python", "test_apps/{0}".format(app_name)], env=os.environ)
     else:
-        world.app_process = subprocess.Popen(["python", "test_apps/{0}".format(app_name)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        world.app_process = subprocess.Popen(["python", "test_apps/{0}".format(app_name)], env=os.environ, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     pqaut.wait_for_automation_server()
 
 @after.each_scenario
