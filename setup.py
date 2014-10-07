@@ -9,7 +9,7 @@ from setuptools import setup
 
 setup(
     name='pqaut',
-    version='0.1.7',
+    version='0.1.9',
     author='Gary Johnson',
     author_email = 'gary@gjtt.com',
     description = 'Automation for BDD testing PyQt apps',
