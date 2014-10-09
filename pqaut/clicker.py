@@ -11,7 +11,7 @@ class Clicker(QObject):
 
     def __init__(self):
         super(QObject, self).__init__()
-        self.do_click.connect(self._click_on_ui_thread, type=Qt.BlockingQueuedConnection)
+        self.do_click.connect(self._click_on_ui_thread, type=Qt.QueuedConnection)
 
     def click_on(self, target, point = QPoint(0,0)):
         logger.debug("clicking {} at {},{}".format(target, point.x(), point.y()))
