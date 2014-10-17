@@ -58,7 +58,7 @@ def _wait_for_element_to_not_be_visible(name, automation_type, timeout):
 
         try:
             logger.debug(u'trying to find invisible element {} with type {}'.format(name, automation_type))
-            found_element = _find_element(name, automation_type)
+            found_element = find_element(name, automation_type)
         except requests.exceptions.Timeout as ex:
             logger.debug(u'pqaut timed out while looking for {}: {}'.format(name, ex))
             time.sleep(delay)
@@ -83,7 +83,7 @@ def _wait_for_visible_element(name, automation_type, timeout):
 
         try:
             logger.debug(u'trying to find element {} with type {}'.format(name, automation_type))
-            found_element = _find_element(name, automation_type)
+            found_element = find_element(name, automation_type)
         except requests.exceptions.Timeout as ex:
             logger.debug(u'pqaut timed out while looking for {}: {}'.format(name, ex))
             time.sleep(delay)
@@ -100,10 +100,7 @@ def _wait_for_visible_element(name, automation_type, timeout):
 
     return None
 
-def _element_is_visible(element):
-    return element["visible"] and not element["offscreen"]
-
-def _find_element(name, automation_type):
+def find_element(name, automation_type):
     headers = {'Content-type': 'application/json', 'Accept': 'application/json' }
     body = {'query':{'window_name':'', 'value':name, 'automation_type':automation_type}}
     response = requests.post('http://0.0.0.0:5123/find_element', data=json.dumps(body), headers=headers, timeout=TIMEOUT)
@@ -112,6 +109,9 @@ def _find_element(name, automation_type):
         return None
 
     return found_element
+
+def _element_is_visible(element):
+    return element["visible"] and not element["offscreen"]
 
 log_levels = {
     'DEBUG': logging.DEBUG,
