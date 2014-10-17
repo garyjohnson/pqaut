@@ -7,7 +7,7 @@ from lettuce import world
 from nose.tools import assert_equals, assert_true, assert_is_not_none, assert_is_none, assert_false
 
 
-RETRIES=20
+RETRIES=40
 TIMEOUT=3
 
 def wait_for_automation_server():
