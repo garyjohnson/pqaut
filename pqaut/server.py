@@ -99,7 +99,7 @@ def start_automation_server():
     debug = log_level_name is 'DEBUG'
     if debug:
         logger.info("Starting bottle in debug mode")
-    thread = threading.Thread(target=bottle.run, kwargs={'host':'localhost', 'port':5123, 'quiet':(not debug), 'debug':debug})
+    thread = threading.Thread(target=bottle.run, kwargs={'host':'0.0.0.0', 'port':5123, 'quiet':(not debug), 'debug':debug})
     thread.setDaemon(True)
     thread.start()
 

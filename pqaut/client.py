@@ -14,7 +14,7 @@ def wait_for_automation_server():
     while (True):
         time.sleep(0.5)
         try:
-            response = requests.get("http://localhost:5123/ping", timeout=TIMEOUT)
+            response = requests.get("http://0.0.0.0:5123/ping", timeout=TIMEOUT)
             if response.status_code == 200:
                 break
         except requests.exceptions.Timeout as ex:
@@ -30,7 +30,7 @@ def tap(name, automation_type = None):
     headers = {'Content-type': 'application/json', 'Accept': 'application/json' }
     body = {'query':{'window_name':'', 'value':name, 'automation_type':automation_type}}
     try:
-        response = requests.post('http://localhost:5123/click', data=json.dumps(body), headers=headers, timeout=TIMEOUT)
+        response = requests.post('http://0.0.0.0:5123/click', data=json.dumps(body), headers=headers, timeout=TIMEOUT)
     except requests.exceptions.Timeout as ex:
         logger.debug(u'pqaut timed out tapping on {}: {}'.format(name, ex))
     except Exception as ex:
@@ -99,7 +99,7 @@ def _element_is_visible(element):
 def _find_element(name, automation_type):
     headers = {'Content-type': 'application/json', 'Accept': 'application/json' }
     body = {'query':{'window_name':'', 'value':name, 'automation_type':automation_type}}
-    response = requests.post('http://localhost:5123/find_element', data=json.dumps(body), headers=headers, timeout=TIMEOUT)
+    response = requests.post('http://0.0.0.0:5123/find_element', data=json.dumps(body), headers=headers, timeout=TIMEOUT)
     found_element = response.json()
     if len(found_element.keys()) == 0:
         return None
