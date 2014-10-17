@@ -14,10 +14,13 @@ class QWidgetAutomator(pqaut.automator.qobject.QObjectAutomator):
         pqaut.server.clicker.click_on(self._target)
 
     def clickable_target(self, point):
-        return self._target.childAt(point.x(), point.y())
+        return self.target.childAt(point.x(), point.y())
+
+    def global_position(self):
+        return self.target.mapToGlobal(self.target.pos())
 
     def is_offscreen(self):
-        return self._target.visibleRegion().isEmpty()
+        return self.target.visibleRegion().isEmpty()
 
     def is_match(self, value, matching_automation_type = None):
         text = self.get_value()
@@ -32,7 +35,7 @@ class QWidgetAutomator(pqaut.automator.qobject.QObjectAutomator):
         return False
 
     def to_json(self, is_recursive=False):
-        json= {'type':self._target.__class__.__name__, 
+        json= {'type':self.target.__class__.__name__, 
                 'automation_id': self.automation_id(),
                 'automation_type':self.automation_type(),
                 'name':self.get_name(), 
@@ -42,7 +45,11 @@ class QWidgetAutomator(pqaut.automator.qobject.QObjectAutomator):
                     'y':self.value_or_default('y', 0),
                     'width':self.value_or_default('width', 0),
                     'height':self.value_or_default('height', 0),
-                    }, 
+                }, 
+                'global_position': {
+                    'x':self.global_position().x(),
+                    'y':self.global_position().y(),
+                },
                 'visible':self.value_or_default('isVisible', True),
                 'enabled':self.value_or_default('isEnabled', False), 
                 'offscreen':self.is_offscreen(),

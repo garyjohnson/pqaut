@@ -17,8 +17,8 @@ def automate(target):
 
             if qt_type is not None and automator_type is not None and isinstance(target, qt_type):
                 return automator_type(target)
-        except:
-            logger.debug('could not import {}'.format(class_name))
+        except Exception as ex:
+            logger.debug('could not import {}: {}'.format(class_name, ex))
             continue
 
     raise Exception('No automator found for {}'.format(target))

@@ -22,6 +22,9 @@ class QQuickItemAutomator(pqaut.automator.qobject.QObjectAutomator):
         root_widget = pqaut.server.get_root_widget()
         pqaut.server.clicker.click_on(root_widget.target, point)
 
+    def global_position(self):
+        return self.target.mapToScene(QPointF(0.0, 0.0))
+
     def is_offscreen(self):
         first_child = pqaut.server.get_root_widget()
         root_width = first_child.value_or_default('width', 0.0)
@@ -68,7 +71,11 @@ class QQuickItemAutomator(pqaut.automator.qobject.QObjectAutomator):
                     'y':self.value_or_default('y', 0),
                     'width':self.value_or_default('width', 0),
                     'height':self.value_or_default('height', 0),
-                    },
+                },
+                'global_position': {
+                    'x':self.global_position().x(),
+                    'y':self.global_position().y(),
+                },
                 'visible':self.value_or_default('visible', True),
                 'enabled':self.value_or_default('enabled', False),
                 'offscreen':self.is_offscreen(),
