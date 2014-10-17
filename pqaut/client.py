@@ -7,21 +7,28 @@ from lettuce import world
 from nose.tools import assert_equals, assert_true, assert_is_not_none, assert_is_none, assert_false
 
 
+RETRIES=20
 TIMEOUT=3
 
 def wait_for_automation_server():
     logger.info('waiting for automation server')
-    while (True):
+    connected = False
+    retry_count = 0
+    while (retry_count < RETRIES):
+        retry_count += 1
         time.sleep(0.5)
         try:
             response = requests.get("http://0.0.0.0:5123/ping", timeout=TIMEOUT)
             if response.status_code == 200:
+                connected = True
                 break
         except requests.exceptions.Timeout as ex:
             logger.debug(u'pqaut timed out waiting for automation server: {}'.format(ex))
         except Exception as ex:
             logger.debug(u'error occurred while waiting for automation server: {}'.format(ex))
-            pass
+
+    if not connected:
+        raise Exception(u'pqaut timed out waiting for automation server')
 
 def tap(name, automation_type = None):
     logger.info(u'tapping on {} with automation_type {}'.format(name, automation_type))
