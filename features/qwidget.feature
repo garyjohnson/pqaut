@@ -47,3 +47,8 @@ Feature: QWidget app
     Given I am running "2_qwidget_app_with_button.py"
     When I tap on "This is QButton.text"
     Then I see "Button was clicked"
+
+  Scenario: I can click button that is deleted immediately after
+    Given I am running "10_qwidget_app_deletes_button.py"
+    When I tap on "This is QButton.text"
+    Then I see "Button was clicked"

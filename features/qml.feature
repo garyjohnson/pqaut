@@ -27,3 +27,8 @@ Feature: QML app
   Scenario: I see child by unicode text
     Given I am running "9_qml_app.py"
     Then I see "Unicode € ♫"
+
+  Scenario: I can click button that is deleted immediately after
+    Given I am running "11_qml_app_deletes_button.py"
+    When I tap on "This is a QML Button"
+    Then I see "Button was tapped"
