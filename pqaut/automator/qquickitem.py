@@ -1,5 +1,3 @@
-import types
-
 from PyQt5.Qt import QPointF, QPoint, QObject
 
 import pqaut.automator.factory as factory
@@ -99,7 +97,7 @@ class QQuickItemAutomator(pqaut.automator.qobject.QObjectAutomator):
             if index >= 0:
                 value = meta_object.property(index).read(self._target)
 
-            if type(value) == types.StringType:
+            if isinstance(value, str):
                 return value.decode('utf-8')
             return value
         except Exception as ex:

@@ -1,4 +1,5 @@
-lettuce
+#lettuce
+-e git+https://github.com/gabrielfalcao/lettuce.git#egg=lettuce
 requests
 nose
 bottle
