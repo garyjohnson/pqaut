@@ -1,9 +1,10 @@
+from __future__ import unicode_literals
 import os
-import requests
 import time
 import json
 import logging
-from lettuce import world
+
+import requests
 from nose.tools import assert_equals, assert_true, assert_is_not_none, assert_is_none, assert_false
 
 
@@ -23,15 +24,15 @@ def wait_for_automation_server():
                 connected = True
                 break
         except requests.exceptions.Timeout as ex:
-            logger.debug(u'pqaut timed out waiting for automation server: {}'.format(ex))
+            logger.debug('pqaut timed out waiting for automation server: {}'.format(ex))
         except Exception as ex:
-            logger.debug(u'error occurred while waiting for automation server: {}'.format(ex))
+            logger.debug('error occurred while waiting for automation server: {}'.format(ex))
 
     if not connected:
-        raise Exception(u'pqaut timed out waiting for automation server')
+        raise Exception('pqaut timed out waiting for automation server')
 
 def tap(name, automation_type = None):
-    logger.info(u'tapping on {} with automation_type {}'.format(name, automation_type))
+    logger.info('tapping on {} with automation_type {}'.format(name, automation_type))
     assert_is_visible(name, automation_type)
     time.sleep(0.4)
     headers = {'Content-type': 'application/json', 'Accept': 'application/json' }
@@ -39,9 +40,9 @@ def tap(name, automation_type = None):
     try:
         response = requests.post('http://0.0.0.0:5123/click', data=json.dumps(body), headers=headers, timeout=TIMEOUT)
     except requests.exceptions.Timeout as ex:
-        logger.debug(u'pqaut timed out tapping on {}: {}'.format(name, ex))
+        logger.debug('pqaut timed out tapping on {}: {}'.format(name, ex))
     except Exception as ex:
-        logger.debug(u'error occurred while tapping on {}: {}'.format(name, ex))
+        logger.debug('error occurred while tapping on {}: {}'.format(name, ex))
     time.sleep(0.3)
 
 def assert_is_not_visible(name, automation_type = None, timeout=3):
@@ -57,14 +58,14 @@ def _wait_for_element_to_not_be_visible(name, automation_type, timeout):
         retries += 1
 
         try:
-            logger.debug(u'trying to find invisible element {} with type {}'.format(name, automation_type))
+            logger.debug('trying to find invisible element {} with type {}'.format(name, automation_type))
             found_element = find_element(name, automation_type)
         except requests.exceptions.Timeout as ex:
-            logger.debug(u'pqaut timed out while looking for {}: {}'.format(name, ex))
+            logger.debug('pqaut timed out while looking for {}: {}'.format(name, ex))
             time.sleep(delay)
             continue
         except requests.exceptions.ConnectionError as ex:
-            logger.debug(u'error occurred while looking for element: {}'.format(ex))
+            logger.debug('error occurred while looking for element: {}'.format(ex))
             time.sleep(delay)
             continue
 
@@ -82,14 +83,14 @@ def _wait_for_visible_element(name, automation_type, timeout):
         retries += 1
 
         try:
-            logger.debug(u'trying to find element {} with type {}'.format(name, automation_type))
+            logger.debug('trying to find element {} with type {}'.format(name, automation_type))
             found_element = find_element(name, automation_type)
         except requests.exceptions.Timeout as ex:
-            logger.debug(u'pqaut timed out while looking for {}: {}'.format(name, ex))
+            logger.debug('pqaut timed out while looking for {}: {}'.format(name, ex))
             time.sleep(delay)
             continue
         except requests.exceptions.ConnectionError as ex:
-            logger.debug(u'error occurred while looking for element: {}'.format(ex))
+            logger.debug('error occurred while looking for element: {}'.format(ex))
             time.sleep(delay)
             continue
 
@@ -120,6 +121,6 @@ log_levels = {
     'ERROR': logging.ERROR,
 }
 log_level_name = os.environ.get('PQAUT_LOG', 'ERROR')
-logging.basicConfig(level=log_levels[log_level_name])
 logger = logging.getLogger(__name__)
+logger.setLevel(log_levels[log_level_name])
 logger.info('pqaut log level is {}'.format(log_level_name))

@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import types
 
 import pqaut.automator.factory as factory

@@ -1,6 +1,6 @@
-#lettuce
--e git+https://github.com/gabrielfalcao/lettuce.git#egg=lettuce
+behave
 requests
 nose
 bottle
+tox
 #PyQt5 - install manually

@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import os
 import bottle
 import json
@@ -111,7 +112,7 @@ log_levels = {
     'ERROR': logging.ERROR,
 }
 log_level_name = os.environ.get('PQAUT_LOG', 'ERROR')
-logging.basicConfig(level=log_levels[log_level_name])
 logger = logging.getLogger(__name__)
+logger.setLevel(log_levels[log_level_name])
 logger.info('pqaut log level is {}'.format(log_level_name))
 clicker = pqaut.clicker.Clicker()

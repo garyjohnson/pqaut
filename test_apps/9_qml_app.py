@@ -13,7 +13,7 @@ engine = Qt.QQmlEngine()
 component = Qt.QQmlComponent(engine)
 component.loadUrl(Qt.QUrl('test_apps/9_qml_app.qml'))
 for error in component.errors():
-    print error.description()
+    print(error.description())
 window = component.create()
 window.show()
 

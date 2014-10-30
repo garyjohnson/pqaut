@@ -13,7 +13,7 @@ engine = Qt.QQmlEngine()
 component = Qt.QQmlComponent(engine)
 component.loadUrl(Qt.QUrl('test_apps/11_qml_app_deletes_button.qml'))
 for error in component.errors():
-    print error.description()
+    print(error.description())
 window = component.create()
 window.show()
 

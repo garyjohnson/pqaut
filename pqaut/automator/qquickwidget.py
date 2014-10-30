@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 import pqaut.automator.factory as factory
 import pqaut.automator.qwidget
 

@@ -13,9 +13,6 @@ class Root(Qt.QWidget):
         def button_click():
             label.setText('Button was clicked')
             sip.delete(button)
-            print button
-            print ''
-            print ''
 
         super(Qt.QWidget, self).__init__()
         button = Qt.QPushButton('This is QButton.text', self)

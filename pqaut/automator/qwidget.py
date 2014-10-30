@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import types
 
 import pqaut.automator.factory as factory
@@ -24,7 +25,7 @@ class QWidgetAutomator(pqaut.automator.qobject.QObjectAutomator):
 
     def is_match(self, value, matching_automation_type = None):
         text = self.get_value()
-        nbsp = u"\u00A0"
+        nbsp = "\u00A0"
         text_with_normalized_spaces = text.replace(nbsp, ' ')
         if value == text_with_normalized_spaces or value == text or value == self.get_name() or value == self.automation_id():
             if matching_automation_type is None or len(matching_automation_type) == 0:

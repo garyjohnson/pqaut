@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import logging
 
 from PyQt5.Qt import QObject
@@ -77,8 +78,5 @@ class QObjectAutomator(object):
 
         elif hasattr(self._target, value_name):
             value = getattr(self._target, value_name)
-
-        if isinstance(value, str):
-            return value.decode('utf-8')
 
         return value
