@@ -51,6 +51,7 @@ def before_scenario(context, scenario):
 
 def after_scenario(context, scenario):
     kill_app()
+```
 
 ### Testing the App
 Now it's time to make assertions against the UI. Make a feature file `features/hello_world.feature`:
