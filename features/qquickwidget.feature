@@ -30,6 +30,7 @@ Feature: QWidget app with QQuickWidget
     Then I see "Button was tapped"
 
   @qt5.3
+  @unicode
   Scenario: I see QQuickWidget child by unicode text
     Given I am running "8_qquickwidget_app.py"
     Then I see "Unicode € ♫"

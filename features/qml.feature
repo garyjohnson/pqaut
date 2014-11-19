@@ -24,6 +24,7 @@ Feature: QML app
     When I tap on "This is a QML Button"
     Then I see "Button was tapped"
 
+  @unicode
   Scenario: I see child by unicode text
     Given I am running "9_qml_app.py"
     Then I see "Unicode € ♫"
