@@ -86,6 +86,9 @@ def get_root_widget(window_name = ''):
     return root_widget
 
 def find_widget_in(parent, value, automation_type):
+    if parent is None:
+        return None
+
     for child in parent.get_children():
         if child.is_match(value, automation_type):
             return child
