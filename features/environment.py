@@ -6,7 +6,7 @@ import features.support.helpers as helpers
 use_step_matcher("re")
 
 def before_all(context):
-    context.config.logging_level="ERROR"
+    context.config.logging_level=40
     context.config.setup_logging()
 
 def after_scenario(context, scenario):
