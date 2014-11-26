@@ -46,10 +46,10 @@ def tap(name, automation_type = None):
     time.sleep(0.3)
 
 def assert_is_not_visible(name, automation_type = None, timeout=3):
-    assert_true(_wait_for_element_to_not_be_visible(name, automation_type, timeout), u"Found element but expected it to not be visible")
+    assert_true(_wait_for_element_to_not_be_visible(name, automation_type, timeout), 'Found element but expected it to not be visible')
 
 def assert_is_visible(name, automation_type = None, timeout=3):
-    assert_is_not_none(_wait_for_visible_element(name, automation_type, timeout), u"Visible element not found with name {0} and type {1}".format(name, automation_type))
+    assert_is_not_none(_wait_for_visible_element(name, automation_type, timeout), 'Visible element not found with name {0} and type {1}'.format(name, automation_type))
 
 def _wait_for_element_to_not_be_visible(name, automation_type, timeout):
     retries = 0
