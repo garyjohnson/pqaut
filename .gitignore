@@ -1,5 +1,6 @@
 # Byte-compiled / optimized / DLL files
 reports
+reports-*
 __pycache__/
 .venv*
 *.py[cod]

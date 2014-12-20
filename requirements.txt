@@ -1,4 +1,4 @@
-behave
+git+git://github.com/behave/behave.git@04ef02550bdf90fad4e073fe39d1730ee2152d31#egg=behave
 requests
 nose
 bottle
