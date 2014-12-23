@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+from collections import OrderedDict
 import logging
 
 from PyQt5.Qt import QObject
@@ -53,8 +54,10 @@ class QObjectAutomator(object):
         return self.value_or_default('text', '')
 
     def to_json(self, is_recursive=False):
-        json={ 'type':self._target.__class__.__name__, 
-               'value':self.value_or_default('text', ''),  }
+        json=OrderedDict([ 
+            ('type',self._target.__class__.__name__), 
+            ('value',self.value_or_default('text', '')),  
+        ])
 
         if is_recursive:
             children_json = []
