@@ -5,9 +5,14 @@ import logging
 from PyQt5.Qt import QObject
 
 import pqaut.automator.factory as factory
+import pqaut.key_press
 
 
 logger = logging.getLogger(__name__)
+
+class QObjectPropertySetter(pqaut.key_press.PropertySetter):
+    def set_value(self):
+        setattr(self.target, self.property_name, self.value)
 
 class QObjectAutomator(object):
 
@@ -38,7 +43,7 @@ class QObjectAutomator(object):
         logger.debug('found children {} on {}'.format(self._target, children))
         return [factory.automate(c) for c in children];
 
-    def is_match(self, value, automation_type=None):
+    def is_match(self,value=None, automation_id=None, automation_type=None):
         return False
 
     def automation_id(self):
@@ -83,3 +88,12 @@ class QObjectAutomator(object):
             value = getattr(self._target, value_name)
 
         return value
+
+    def set_value(self, value_name, value):
+        property_setter = QObjectPropertySetter(self._target, 'text', value)
+        sip.transferto(property_setter, self._target)
+        try:
+            pqaut.server.key_press.input(property_setter)
+        except Exception as ex:
+            logger.debug("error on  set value on ui thread: {}".format(ex))
+

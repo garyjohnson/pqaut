@@ -6,7 +6,6 @@ import pqaut.automator.factory as factory
 import pqaut.automator.qobject
 import pqaut.server
 
-
 class QWidgetAutomator(pqaut.automator.qobject.QObjectAutomator):
 
     def __init__(self, target):
@@ -24,14 +23,19 @@ class QWidgetAutomator(pqaut.automator.qobject.QObjectAutomator):
     def is_offscreen(self):
         return self.target.visibleRegion().isEmpty()
 
-    def is_match(self, value, matching_automation_type = None):
+    def is_match(self, value=None, automation_id=None, automation_type=None):
         text = self.get_value()
         nbsp = "\u00A0"
-        text_with_normalized_spaces = text.replace(nbsp, ' ')
-        if value == text_with_normalized_spaces or value == text or value == self.get_name() or value == self.automation_id():
-            if matching_automation_type is None or len(matching_automation_type) == 0:
+        text_with_normalized_spaces = text.replace(nbsp, " ")
+        print('matching value: {}, automation_id: {}, automation_type: {}'.format(value, automation_id, automation_type))
+
+        if automation_type is not None and len(automation_type) > 0 and automation_type != self.automation_type():
+            return False
+
+        if value  in [text_with_normalized_spaces, text, self.get_name()]:
                 return True
-            elif matching_automation_type == self.automation_type():
+
+        if automation_id is not None and automation_id == self.automation_id():
                 return True
 
         return False
