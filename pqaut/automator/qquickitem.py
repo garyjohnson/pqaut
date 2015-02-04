@@ -1,11 +1,32 @@
 from __future__ import unicode_literals
 from collections import OrderedDict
+import sip
+import logging
 
-from PyQt5.Qt import QPointF, QPoint, QObject
+from PyQt5.Qt import QPointF, QPoint, QObject,  QVariant
+import PyQt5.Qt as Qt
 
 import pqaut.automator.factory as factory
 import pqaut.automator.qobject
 import pqaut.server
+import pqaut.key_press
+
+logger = logging.getLogger(__name__)
+
+class QQuickPropertySetter(pqaut.key_press.PropertySetter):
+
+    def set_value(self):
+        try:
+            meta_object = self.target.metaObject()
+
+            index = meta_object.indexOfProperty(self.property)
+            if index < 0:
+                raise Exception("could not set property {}".format(self.property))
+
+            meta_object.property(index).write(self.target, QVariant(self.value))
+        except Exception as ex:
+            logger.error("could not enter text into input item: {}".format(ex))
+
 
 
 class QQuickItemAutomator(pqaut.automator.qobject.QObjectAutomator):
@@ -49,15 +70,20 @@ class QQuickItemAutomator(pqaut.automator.qobject.QObjectAutomator):
 
         return [factory.automate(c) for c in children];
 
-    def is_match(self, value, matching_automation_type=None):
+    def is_match(self, value=None, automation_id=None, automation_type=None):
         text = self.get_value()
         nbsp = "\u00A0"
         text_with_normalized_spaces = text.replace(nbsp, " ")
-        if value == text_with_normalized_spaces or value == text or value == self.get_name() or value == self.automation_id():
-            if matching_automation_type is None or len(matching_automation_type) == 0:
-                return True
-            elif matching_automation_type == self.automation_type():
-                return True
+        assert automation_id is not None
+
+        if automation_type is not None and len(automation_type) > 0 and automation_type != self.automation_type():
+            return False
+
+        if value  in [text_with_normalized_spaces, text, self.get_name()]:
+            return True
+
+        if automation_id is not None and automation_id == self.automation_id():
+            return True
 
         return False
 
@@ -104,3 +130,12 @@ class QQuickItemAutomator(pqaut.automator.qobject.QObjectAutomator):
             return value
         except Exception as ex:
             return default
+
+    def set_value(self, value):
+        property_setter = QQuickPropertySetter(self._target, 'text', value)
+        sip.transferto(property_setter, self._target)
+        try:
+            pqaut.server.key_press.input(property_setter)
+        except Exception as ex:
+            logger.debug("error on  set value on ui thread: {}".format(ex))
+

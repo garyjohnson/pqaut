@@ -33,3 +33,4 @@ Feature: QML app
     Given I am running "11_qml_app_deletes_button.py"
     When I tap on "This is a QML Button"
     Then I see "Button was tapped"
+

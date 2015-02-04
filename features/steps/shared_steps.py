@@ -30,3 +30,6 @@ def then_i_do_not_see_with_type(context, name, automation_type):
 def i_tap_on(context, name):
     pqaut.tap(name)
 
+@when(u'I enter "(?P<input>[a-z]*)" in text input')
+def i_set_input(context, input):
+    pqaut.input('text_input', input)
