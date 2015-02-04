@@ -14,6 +14,7 @@ class Root(Qt.QWidget):
         widget = Qt.QQuickWidget(self)
         widget.setSource(Qt.QUrl("test_apps/8_qquickwidget_app.qml"))
         widget.setGeometry(0,0,400,100)
+        widget.setResizeMode(Qt.QQuickWidget.SizeRootObjectToView)
 
         self.show()
 
