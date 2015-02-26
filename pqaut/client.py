@@ -57,6 +57,19 @@ def input(input_item, value):
         logger.debug('error occurred while inputing on {}: {}'.format(input_item, ex))
     time.sleep(0.3)
 
+def set_value(automation_id, property, value):
+    logger.info('setting property {} on {} to {}'.format(property, automation_id, value))
+    headers = {'Content-type': 'application/json', 'Accept': 'application/json' }
+    body = {'query':{'window_name':'', 'automation_id':automation_id, 'property':property, 'value':value}}
+    try:
+        response = requests.post('http://0.0.0.0:5123/set_value', data=json.dumps(body), headers=headers, timeout=TIMEOUT)
+        print response.content
+    except requests.exceptions.Timeout as ex:
+        logger.debug('pqaut timed out inputing on {}: {}'.format(input_item, ex))
+    except Exception as ex:
+        logger.debug('error occurred while inputing on {}: {}'.format(input_item, ex))
+    time.sleep(0.3)
+
 def assert_is_not_visible(name, automation_type = None, timeout=3):
     assert_true(_wait_for_element_to_not_be_visible(name, automation_type, timeout), 'Found element but expected it to not be visible')
 

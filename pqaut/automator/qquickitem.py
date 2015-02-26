@@ -55,7 +55,7 @@ class QQuickItemAutomator(pqaut.automator.qobject.QObjectAutomator):
         x = pointf.x()
         y = pointf.y()
         width = self.value_or_default("width", 0.0)
-        height = self.value_or_default("height", 0.0) 
+        height = self.value_or_default("height", 0.0)
         return x+width <= 0 or x >= root_width or y+height <= 0 or y >= root_height
 
     def get_children(self):
@@ -89,15 +89,15 @@ class QQuickItemAutomator(pqaut.automator.qobject.QObjectAutomator):
 
     def to_json(self, is_recursive = False):
         json=OrderedDict([
-                ('type',self._target.__class__.__name__), 
+                ('type',self._target.__class__.__name__),
                 ('automation_id', self.automation_id()),
                 ('automation_type',self.automation_type()),
-                ('name',self.get_name()), 
+                ('name',self.get_name()),
                 ('value',self.get_value()),
                 ('visible',self.value_or_default('visible', True)),
                 ('enabled',self.value_or_default('enabled', False)),
                 ('offscreen',self.is_offscreen()),
-                ('frame', OrderedDict([ 
+                ('frame', OrderedDict([
                     ('x',self.value_or_default('x', 0)),
                     ('y',self.value_or_default('y', 0)),
                     ('width',self.value_or_default('width', 0)),
@@ -131,8 +131,8 @@ class QQuickItemAutomator(pqaut.automator.qobject.QObjectAutomator):
         except Exception as ex:
             return default
 
-    def set_value(self, value):
-        property_setter = QQuickPropertySetter(self._target, 'text', value)
+    def set_value(self, value, property='text'):
+        property_setter = QQuickPropertySetter(self._target, property, value)
         sip.transferto(property_setter, self._target)
         try:
             pqaut.server.key_press.input(property_setter)
