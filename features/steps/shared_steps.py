@@ -33,3 +33,7 @@ def i_tap_on(context, name):
 @when(u'I enter "(?P<input>[a-z]*)" in text input')
 def i_set_input(context, input):
     pqaut.input('text_input', input)
+
+@step(u'I set the slider "(?P<automation_id>.*)" to "(?P<value>.*)"')
+def step_impl(context, automation_id, value):
+    pqaut.set_value(automation_id=automation_id, property='value', value=value)

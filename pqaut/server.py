@@ -54,6 +54,23 @@ def input():
 
     return found_widget
 
+@bottle.post("/set_value")
+def set_value():
+    found_widget = {}
+    window_name = get_query_value('window_name')
+    automation_id = get_query_value('automation_id')
+    property = get_query_value('property')
+    value = get_query_value('value')
+
+    widget = find_widget_in(get_root_widget(window_name), automation_id=automation_id)
+    print 'found widget: {}'.format(widget)
+
+    if widget is not None:
+        widget.set_value(value, property)
+        found_widget = widget.to_json()
+
+    return found_widget
+
 @bottle.post("/find_element")
 def find_element():
     found_json = {}
@@ -89,7 +106,7 @@ def get_root_widget(window_name = ''):
             break
 
     if root_widget is None and any(quick_windows):
-        root_widget = factory.automate(quick_windows[0]) 
+        root_widget = factory.automate(quick_windows[0])
 
     if root_widget is None:
         for root_widget in QApplication.topLevelWidgets():
@@ -98,7 +115,7 @@ def get_root_widget(window_name = ''):
                 break
 
     if root_widget is None and any(QApplication.topLevelWidgets()):
-        root_widget = factory.automate(QApplication.topLevelWidgets()[0]) 
+        root_widget = factory.automate(QApplication.topLevelWidgets()[0])
 
     logger.debug('found root widget: {}'.format(root_widget if root_widget is None else root_widget.target))
     return root_widget
