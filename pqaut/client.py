@@ -63,7 +63,6 @@ def set_value(automation_id, property, value):
     body = {'query':{'window_name':'', 'automation_id':automation_id, 'property':property, 'value':value}}
     try:
         response = requests.post('http://0.0.0.0:5123/set_value', data=json.dumps(body), headers=headers, timeout=TIMEOUT)
-        print response.content
     except requests.exceptions.Timeout as ex:
         logger.debug('pqaut timed out inputing on {}: {}'.format(input_item, ex))
     except Exception as ex:

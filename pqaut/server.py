@@ -63,7 +63,6 @@ def set_value():
     value = get_query_value('value')
 
     widget = find_widget_in(get_root_widget(window_name), automation_id=automation_id)
-    print 'found widget: {}'.format(widget)
 
     if widget is not None:
         widget.set_value(value, property)
