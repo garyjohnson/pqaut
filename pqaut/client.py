@@ -75,11 +75,11 @@ def get_value(automation_id, property):
     body = {'query':{'window_name':'', 'automation_id':automation_id, 'property':property}}
     try:
         response = requests.post('http://0.0.0.0:5123/get_value', data=json.dumps(body), headers=headers, timeout=TIMEOUT)
-        return json.loads(response.content)['value']
+        return json.loads(str(response.content))['value']
     except requests.exceptions.Timeout as ex:
-        logger.debug('pqaut timed out inputing on {}: {}'.format(input_item, ex))
+        logger.debug('pqaut timed out getting value on {}: {}'.format(automation_id, ex))
     except Exception as ex:
-        logger.debug('error occurred while inputing on {}: {}'.format(input_item, ex))
+        logger.debug('error occurred while getting value on {}: {}'.format(automation_id, ex))
     time.sleep(0.3)
 
 def assert_is_not_visible(name, automation_type = None, timeout=3):
