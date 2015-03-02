@@ -70,6 +70,20 @@ def set_value():
 
     return found_widget
 
+@bottle.post("/get_value")
+def get_value():
+    found_widget = {'value':None}
+    window_name = get_query_value('window_name')
+    automation_id = get_query_value('automation_id')
+    property_name = get_query_value('property')
+
+    widget = find_widget_in(get_root_widget(window_name), automation_id=automation_id)
+
+    if widget is not None:
+        return {"value": widget.get_value(property_name) }
+
+    return found_widget
+
 @bottle.post("/find_element")
 def find_element():
     found_json = {}
