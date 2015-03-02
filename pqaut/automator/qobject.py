@@ -55,8 +55,8 @@ class QObjectAutomator(object):
     def get_name(self):
         return self.value_or_default('objectName', '')
 
-    def get_value(self):
-        return self.value_or_default('text', '')
+    def get_value(self, property_name='text'):
+        return self.value_or_default(property_name, '')
 
     def to_json(self, is_recursive=False):
         json=OrderedDict([ 

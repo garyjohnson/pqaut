@@ -4,6 +4,7 @@ from behave import *
 
 import pqaut.client as pqaut
 import features.support.helpers as helpers
+from nose.tools import assert_equal
 
 
 @given('I am running "(?P<app_name>[^"]*)"$')
@@ -37,3 +38,7 @@ def i_set_input(context, input):
 @step(u'I set the slider "(?P<automation_id>.*)" to "(?P<value>.*)"')
 def step_impl(context, automation_id, value):
     pqaut.set_value(automation_id=automation_id, property='value', value=value)
+
+@step(u'the slider "(?P<automation_id>.*)" is "(?P<value>.*)"')
+def step_impl(context, automation_id, value):
+    assert_equal(pqaut.get_value(automation_id, 'value'), int(value))
