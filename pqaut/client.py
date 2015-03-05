@@ -75,7 +75,7 @@ def get_value(automation_id, property):
     body = {'query':{'window_name':'', 'automation_id':automation_id, 'property':property}}
     try:
         response = requests.post('http://0.0.0.0:5123/get_value', data=json.dumps(body), headers=headers, timeout=TIMEOUT)
-        return json.loads(str(response.content))['value']
+        return json.loads(response.content.decode("utf-8"))['value']
     except requests.exceptions.Timeout as ex:
         logger.debug('pqaut timed out getting value on {}: {}'.format(automation_id, ex))
     except Exception as ex:
